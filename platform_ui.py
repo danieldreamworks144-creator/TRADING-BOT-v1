@@ -298,7 +298,19 @@ def render(state_bootstrap: dict) -> str:
   <div id="panel-system" style="display:none">
     <div class="panel"><h2>Security &amp; data</h2>
       <ul class="muted" style="font-size:12px;line-height:1.9">
-        <li>API secrets are read from environment variables on the backend only.</li>
+        <<li>API secrets are read from environment variables on the backend only.</li>
         <li>Secrets are never written to logs, the database, or the frontend.</li>
         <li>Credential validation confirms presence without exposing values.</li>
-        <li>The platform has no withdrawal, transfer or funding capability.</
+        <li>The platform has no withdrawal, transfer or funding capability.</li>
+        <li>All stored trades are tagged <b>mode=demo</b> and are simulated.</li>
+        <li>Real-money trading is not implemented and cannot be enabled here.</li>
+      </ul></div>
+  </div>
+
+  <footer>ApexTrade demo platform · simulated trading only · not financial advice ·
+    market data from OKX/Bybit public endpoints · no real orders are ever placed.</footer>
+</main>
+</div>
+<script>{JS}</script>
+<script>window.__BOOT__={s};</script>
+</body></html>"""
