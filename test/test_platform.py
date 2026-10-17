@@ -256,5 +256,22 @@ class TestAuthAndAccess(PlatformTestBase):
         self.assertEqual(rc, 2)
 
 
+class TestSecretKeyRegex(PlatformTestBase):
+    """Regression: _SECRET_KEY regex must match credential-like config keys."""
+
+    def test_regex_matches_api_key_variants(self):
+        from store import _SECRET_KEY
+        for key in ("api_key", "apikey", "API_KEY", "secret", "API_SECRET",
+                    "passphrase", "password", "token", "authorization", "cookie"):
+            self.assertTrue(_SECRET_KEY.search(key),
+                            f"_SECRET_KEY should match {key!r}")
+
+    def test_regex_does_not_match_safe_keys(self):
+        from store import _SECRET_KEY
+        for key in ("risk_limits", "theme", "pair", "exchange", "interval"):
+            self.assertIsNone(_SECRET_KEY.search(key),
+                              f"_SECRET_KEY should NOT match {key!r}")
+
+
 if __name__ == "__main__":
     unittest.main()

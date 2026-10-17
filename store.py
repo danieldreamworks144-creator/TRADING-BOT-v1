@@ -17,7 +17,7 @@ import sqlite3
 import threading
 from datetime import datetime, timezone
 
-_[REDACTED: credential]"(api[_-]?key|apikey|secret|passphrase|password|token|authorization|cookie)",
+_SECRET_KEY = re.compile(r"(api[_-]?key|apikey|secret|passphrase|password|token|authorization|cookie)",
                          re.IGNORECASE)
 
 REDACTED = "[redacted]"

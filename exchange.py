@@ -144,7 +144,7 @@ def _make_ccxt(exchange_id: str, read_only: bool = True):
         ex.apiKey, ex.secret = key, secret
         passphrase = os.environ.get(f"{exchange_id.upper()}_API_PASSPHRASE", "")
         if passphrase and hasattr(ex, "password"):
-            ex.[REDACTED: credential]
+            ex.password = passphrase
     return ex
 
 
