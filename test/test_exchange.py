@@ -163,5 +163,32 @@ class TestLiveOrderGates(unittest.TestCase):
         self.assertFalse(hasattr(CcxtExchange, "transfer"))
 
 
+class TestMakeCcxt(unittest.TestCase):
+    """Regression: _make_ccxt must assign passphrase to ex.password."""
+
+    def test_password_assigned_when_passphrase_present(self):
+        """Regression: _make_ccxt must assign passphrase to ex.password."""
+        import sys
+        fake_ccxt = mock.MagicMock()
+        fake_ccxt.exchanges = ["binance"]
+        mock_exchange_instance = mock.MagicMock()
+        mock_exchange_instance.password = None
+        fake_ccxt.binance.return_value = mock_exchange_instance
+        with mock.patch.dict(sys.modules, {"ccxt": fake_ccxt}):
+            with mock.patch.dict(os.environ, {
+                "BINANCE_API_KEY": "K", "BINANCE_API_SECRET": "S",
+                "BINANCE_API_PASSPHRASE": "P"
+            }):
+                from exchange import _make_ccxt
+                _make_ccxt("binance", read_only=False)
+        self.assertEqual(mock_exchange_instance.password, "P")
+
+    def test_backtest_module_imports(self):
+        """Regression: backtest.py must be importable (was backrest.py)."""
+        import backtest
+        self.assertTrue(hasattr(backtest, "run_backtest"))
+        self.assertTrue(hasattr(backtest, "compute_metrics"))
+
+
 if __name__ == "__main__":
     unittest.main()
